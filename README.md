@@ -4,5 +4,5 @@ Einfaches Atommodell in Java.
 
 **Features**
 
-- Wasserstoff
+- Wasserstoffähnliche Kerne ($H$, $He^+$, $O^{7+}$ )
 - Berechnung von Energie in der 1. Schale
