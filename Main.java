@@ -22,7 +22,7 @@ public class Main {
         );
 
         System.out.println(
-            hydrogen.getName() + " : "
+            hydrogen.getName() + " (Z = " + hydrogen.getProtonNumber() + ") : "
             );
 
         System.out.println(
@@ -38,6 +38,8 @@ public class Main {
             hydrogen.distributeElectrons();
             hydrogen.printConfiguration();
 
+        System.out.println();
+
         // Helium
         Atom helium = new Atom(
             "Helium", 
@@ -46,7 +48,7 @@ public class Main {
         );
 
         System.out.println(
-            helium.getName() + " : "
+            helium.getName() + " (Z = " + helium.getProtonNumber() + ") : "
             );
         
         System.out.println(
@@ -62,6 +64,8 @@ public class Main {
             helium.distributeElectrons();
             helium.printConfiguration();
 
+        System.out.println();
+        
         // Lithium
         Atom lithium = new Atom(
             "Lithium", 
@@ -70,7 +74,7 @@ public class Main {
         );
 
         System.out.println(
-            lithium.getName() + " : "
+            lithium.getName() + " (Z = " + lithium.getProtonNumber() + ") : "
             );
         
         System.out.println(
@@ -86,6 +90,8 @@ public class Main {
             lithium.distributeElectrons();
             lithium.printConfiguration();
 
+        System.out.println();
+
         // Beryllium
         Atom beryllium = new Atom(
             "Beryllium", 
@@ -94,7 +100,7 @@ public class Main {
         );
 
         System.out.println(
-            beryllium.getName() + " : "
+            beryllium.getName() + " (Z = " + beryllium.getProtonNumber() + ") : "
             );
         
         System.out.println(
@@ -110,6 +116,8 @@ public class Main {
             beryllium.distributeElectrons();
             beryllium.printConfiguration();
 
+        System.out.println();
+
         // Sauerstoff
         Atom oxygen = new Atom(
             "Sauerstoff", 
@@ -118,7 +126,7 @@ public class Main {
         );
 
         System.out.println(
-            oxygen.getName() + " : "
+            oxygen.getName() + " (Z = " + oxygen.getProtonNumber() + ") : "
             );
 
         System.out.println(
@@ -134,6 +142,7 @@ public class Main {
             oxygen.distributeElectrons();
             oxygen.printConfiguration();
 
+        System.out.println();
         System.out.println(
         "Hauptquantenzahl n : aktuelle Elektronen / maximale Elektronen"
         );
