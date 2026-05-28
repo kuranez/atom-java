@@ -14,10 +14,9 @@ public class Main {
 
         System.out.println(
             hydrogen.getName()
+            + " : Energie in der ersten Schale : " + energy + " eV"
             );
-        
-        System.out.println( 
-            "Energie in der ersten Schale: " + energy + " eV"
-        );
+
     }
+
 }

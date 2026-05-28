@@ -1,7 +1,7 @@
 public class Atom {
 
     //Eigenschaften
-    //Phase 1: Zunächst nur 
+    // Phase 1: Zunächst nur 
     // Name, Protonenzahl, Elektronenzahl
 
     private String name;
@@ -17,7 +17,7 @@ public class Atom {
 
     //Methoden
     public double calculateEnergyLevel(int n) {
-        //Bohrmodell: E_n = -13.6 eV / n^2, wobei n die Hauptquantenzahl ist
+        // Bohrmodell: E_n = -13.6 eV / n^2, wobei n die Hauptquantenzahl ist
         return -13.6 / (n * n); 
     }
 
