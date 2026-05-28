@@ -1,9 +1,17 @@
+import java.text.DecimalFormat;
+
+
 public class Main {
     public static void main(String[] args) {
         
         // System.out.println("Test!");
+        
+        // Dezimalstellen anzeigen: 2
+        DecimalFormat df =
+            new DecimalFormat("#.##");
 
         // Erstellen von Atom-Objekten
+        // Wasserstoffähnliche Kerne: Z = 1, 2, 8, ...
 
         Atom hydrogen = new Atom(
             "Wasserstoff (H)", 
@@ -33,16 +41,18 @@ public class Main {
             "Sauerstoff (O7+)", 
             8, 
             8 
-            // maximale Elektronenzahl in der ersten Schale ist 2, aber Sauerstoff hat insgesamt 8 Elektronen
+            // maximale Elektronenzahl kann hier eingetragen werden, 
+            // aber für die Energie-Berechnung im Bohrmodell ist sie nicht relevant
         );
 
-        //Berechnung der Energie für die erste Schale (n = 1) und Ausgabe der Ergebnisse
+        // Ausgabe der Atom-Informationen
+        // Berechnung der Energie für die erste Schale (n = 1) und Ausgabe der Ergebnisse
         double energy = 
             hydrogen.calculateEnergyLevel(1, 1);
 
         System.out.println(
             hydrogen.getName()
-            + " : Energie in der ersten Schale : " + energy + " eV"
+            + " : Energie in der ersten Schale : " + df.format(energy) + " eV"
             );
 
         double heliumEnergy = 
@@ -53,7 +63,7 @@ public class Main {
 
         System.out.println(
             helium.getName()
-            + " : Energie in der ersten Schale : " + heliumEnergy + " eV"
+            + " : Energie in der ersten Schale : " + df.format(heliumEnergy) + " eV"
             );
         
         double lithiumEnergy = 
@@ -61,7 +71,7 @@ public class Main {
         
         System.out.println(
             lithium.getName()
-            + " : Energie in der ersten Schale : " + lithiumEnergy + " eV"
+            + " : Energie in der ersten Schale : " + df.format(lithiumEnergy) + " eV"
             );
         
         double berylliumEnergy = 
@@ -69,7 +79,7 @@ public class Main {
         
         System.out.println(
             beryllium.getName()
-            + " : Energie in der ersten Schale : " + berylliumEnergy + " eV"
+            + " : Energie in der ersten Schale : " + df.format(berylliumEnergy) + " eV"
             );
 
         double oxygenEnergy = 
@@ -77,7 +87,7 @@ public class Main {
 
         System.out.println(
             oxygen.getName()
-            + " : Energie in der ersten Schale : " + oxygenEnergy + " eV"
+            + " : Energie in der ersten Schale : " + df.format(oxygenEnergy) + " eV"
             );
     }
 
