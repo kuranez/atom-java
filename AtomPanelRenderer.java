@@ -16,12 +16,21 @@ public class AtomPanelRenderer extends JPanel {
         new Font(Font.MONOSPACED, Font.BOLD, 20);
 
     // Atom-Objekt, das in diesem Panel dargestellt werden soll
-    private Atom atom;
+    private final Atom atom;
 
-    // Allgemeiner Konstruktor, der ein Atom-Objekt als Parameter erwartet
+    // Layout Konstanten
+    private static final int CENTER_X = 400;
+    private static final int CENTER_Y = 400;
+
+    // Atom- und Shell-Darstellung Konstanten
+    private static final int NUCLEUS_SIZE = 20;
+    private static final int SHELL_SPACING = 60;
+    private static final int FIRST_SHELL_RADIUS = 60;
+
+    // Allgemeiner Konstruktor 
     public AtomPanelRenderer(Atom atom) {
-        this.atom = atom; // Zuweisung des übergebenen Atom-Objekts zur Instanzvariable
-        this.setBackground(Color.BLACK); // Hintergrundfarbe des Panels auf Schwarz setzen
+        this.atom = atom;
+        setBackground(Color.BLACK);
     }
 
     @Override
@@ -29,101 +38,174 @@ public class AtomPanelRenderer extends JPanel {
 
         super.paintComponent(g);
 
-        Graphics2D g2 =
-            (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
-        // Mittelpunkt definieren
-        int centerX = 400;
-        int centerY = 400;
+        drawAtom(g2);
+    }
 
-        // Name des Atoms anzeigen
+    // =========================================
+    // MAIN DRAW METHOD
+    // =========================================
+
+    private void drawAtom(Graphics2D g2) {
+
+        drawAtomTitle(g2);
+
+        drawConfigurationText(g2);
+
+        drawEnergyText(g2);
+
+        drawNucleus(g2);
+
+        drawShells(g2);
+    }
+
+    // =========================================
+    // TEXT RENDERING
+    // =========================================
+
+    private void drawAtomTitle(Graphics2D g2) {
+
         g2.setColor(Color.WHITE);
         g2.setFont(TITLE_FONT);
+
         g2.drawString(
             atom.getName(),
-            centerX - 350,
-            centerY - 350
-            );
-
-        // Elektronenkonfiguration anzeigen
-        String[] configurationLines = 
-            atom.getConfigurationText().split(System.lineSeparator());
-        
-            int configurationY = centerY - 320;
-
-        for (String line : configurationLines) {
-            g2.drawString(line, centerX - 350, configurationY);
-            configurationY += g2.getFontMetrics().getHeight();
-        }
-
-        // Energie der ersten Schale unten rechts anzeigen
-        String energyText = String.format(
-            Locale.GERMAN,
-            "Energie n=1: %.1f eV",
-            atom.calculateEnergyLevel(atom.getProtonNumber(), 1)
+            CENTER_X - 350,
+            CENTER_Y - 350
         );
+    }
 
-        int energyTextWidth = g2.getFontMetrics().stringWidth(energyText);
-        int energyX = getWidth() - energyTextWidth - 40;
-        int energyY = getHeight() - 40;
+    private void drawConfigurationText(Graphics2D g2) {
 
-        g2.drawString(energyText, energyX, energyY);
+        String[] lines =
+            atom.getConfigurationText()
+                .split(System.lineSeparator());
 
-        // Kern zeichnen
-        g2.setColor(Color.WHITE);
-        g2.fillOval(
-            centerX - 10,
-            centerY - 10,
-            20,
-            20
-            );
+        int y = CENTER_Y - 320;
 
-        int radius = 60;
+        for (String line : lines) {
 
-        // Alle Shells zeichnen
-        
-        for (Shell shell : atom.getShells()) {
+            g2.drawString(line, CENTER_X - 350, y);
 
-            if (shell.getCurrentElectrons()>0) {
-                
-                g2.setColor(Color.WHITE);
-
-                g2.drawOval(
-
-                    centerX - radius,
-                    centerY - radius,
-
-                    radius * 2,
-                    radius * 2
-                );
-            
-            // Elektronen in der aktuellen Schale zeichnen
-            
-            for (int i = 0; i < shell.getCurrentElectrons(); i++) {
-                g2.setColor(Color.RED);
-
-                double angle =
-                    2 * Math.PI * i / shell.getCurrentElectrons();
-
-                int electronX =
-                    centerX + (int)(radius * Math.cos(angle));
-
-                int electronY =
-                    centerY + (int)(radius * Math.sin(angle));
-
-                 g2.fillOval(
-                    electronX - 5,
-                    electronY - 5,
-                    10,
-                    10
-                    );
-                }
-
-            // Abstand zum nächsten Shell erhöhen
-            radius += 60;
-            }
-
+            y += g2.getFontMetrics().getHeight();
         }
     }
 
+    private void drawEnergyText(Graphics2D g2) {
+
+        String energyText = String.format(
+            Locale.GERMAN,
+            "Energie n=1: %.1f eV",
+            atom.calculateEnergyLevel(
+                atom.getProtonNumber(),
+                1
+            )
+        );
+
+        int width =
+            g2.getFontMetrics()
+                .stringWidth(energyText);
+
+        int x = getWidth() - width - 40;
+        int y = getHeight() - 40;
+
+        g2.drawString(energyText, x, y);
+    }
+
+    // =========================================
+    // ATOM DRAWING
+    // =========================================
+
+    // Step 1: Kern zeichnen
+    private void drawNucleus(Graphics2D g2) {
+
+        g2.setColor(Color.WHITE);
+
+        g2.fillOval(
+            CENTER_X - NUCLEUS_SIZE / 2,
+            CENTER_Y - NUCLEUS_SIZE / 2,
+            NUCLEUS_SIZE,
+            NUCLEUS_SIZE
+        );
+    }
+
+    // Step 2: Alle Shells zeichnen
+    private void drawShells(Graphics2D g2) {
+
+        int radius = FIRST_SHELL_RADIUS;
+
+        for (Shell shell : atom.getShells()) {
+
+            if (shell.getCurrentElectrons() > 0) {
+
+                drawShell(g2, shell, radius);
+
+                radius += SHELL_SPACING;
+            }
+        }
+    }
+
+    // Step 3: Einzelne Shell zeichnen
+    private void drawShell(
+        Graphics2D g2,
+        Shell shell,
+        int radius
+    ) {
+
+        g2.setColor(Color.WHITE);
+
+        g2.drawOval(
+            CENTER_X - radius,
+            CENTER_Y - radius,
+            radius * 2,
+            radius * 2
+        );
+
+        drawElectrons(g2, shell, radius);
+    }
+
+    // Step 4: Elektronen zeichnen
+    private void drawElectrons(
+        Graphics2D g2,
+        Shell shell,
+        int radius
+    ) {
+
+        int electronCount =
+            shell.getCurrentElectrons();
+
+        for (int i = 0; i < electronCount; i++) {
+
+            double angle =
+                2 * Math.PI * i / electronCount;
+
+            int x =
+                CENTER_X +
+                (int)(radius * Math.cos(angle));
+
+            int y =
+                CENTER_Y +
+                (int)(radius * Math.sin(angle));
+
+            drawElectron(g2, x, y);
+        }
+    }
+
+    // Step 5: Einzelnes Elektron zeichnen
+    private void drawElectron(
+        Graphics2D g2,
+        int x,
+        int y
+    ) {
+
+        g2.setColor(Color.RED);
+
+        g2.fillOval(
+            x - 5,
+            y - 5,
+            10,
+            10
+        );
+    }
 }

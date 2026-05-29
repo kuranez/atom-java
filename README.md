@@ -23,8 +23,9 @@ Main
 │     └── electrons 
 │ 
 └── AtomPanelRenderer       
-	├── drawAtom()
-    └── drawShell()
+    ├── drawAtom()
+    └── drawShells()
+    
 ```
 
 ## Meilenstein: Grafische Darstellung von Schalen
