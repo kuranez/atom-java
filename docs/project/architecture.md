@@ -1,4 +1,4 @@
-# Architektur in Java
+# Schalenmodell - Architektur in Java
 
 ```yaml
 Main
